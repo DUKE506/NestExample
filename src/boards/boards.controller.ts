@@ -10,6 +10,10 @@ import { Board } from './board.entity';
 export class BoardsController {
     constructor(private boardsService: BoardsService) { }
 
+    @Get()
+    getAllBoards():Promise<Board[]>{
+        return this.boardsService.getAllBoards();
+    }
 
     @Get('/:id')
     getBoardById(@Param('id') id: number): Promise<Board> {
@@ -22,71 +26,17 @@ export class BoardsController {
         return this.boardsService.createBoard(createBoard);
     }
 
+    @Patch('/:id/status')
+    updateBoardStatus(
+        @Param('id', ParseIntPipe) id:number,
+        @Body('status', BoardStatusValidationPipe) status : BoardStatus,
+    ):Promise<Board>{
+        return this.boardsService.updateBoardStatus(id,status);
+    }
+
     @Delete('/:id')
     deleteBoard(@Param('id', ParseIntPipe) id: number): Promise<void> {
         return this.boardsService.deleteBoard(id);
     }
-
-    // /**
-    //  * GET 게시판 전체 조회
-    //  * @returns 
-    //  */
-    // @Get('/')
-    // getAllBoard(): Boards[] {
-    //     return this.boardsService.getAllBoards();
-    // }
-
-    // /**
-    //  * GET 게시판 단일 조회(Id)
-    //  * @param id 
-    //  * @returns 
-    //  */
-    // @Get('/:id')
-    // getBoardById(@Param('id') id: string): Boards {
-
-    //     return this.boardsService.getBoardById(id);
-    // }
-    // // 파라미터 레벨에서 파이프 사용
-    // // @Get('/:id')
-    // // getBoardById(@Param('id', ParseIntPipe) id: string): Boards {
-    // //     return this.boardsService.getBoardById(id);
-    // // }
-
-    // /**
-    //  * POST 게시판 생성
-    //  * @param createBoardDto 
-    //  * @returns 
-    //  */
-    // @Post()
-    // @UsePipes(ValidationPipe)
-    // createBoard(
-    //     @Body() createBoardDto: CreateBoardDto
-    // ): Boards {
-
-
-    //     return this.boardsService.createBoard(createBoardDto);
-    // }
-
-    // /**
-    //  * PATCH 게시물 상태 수정
-    //  * 
-    //  */
-    // @Patch('/:id/status')
-    // updateBoardStatus(
-    //     @Param('id') id: string,
-    //     @Body('status', BoardStatusValidationPipe) status: BoardStatus,
-    // ) {
-    //     console.log('여기옴')
-    //     return this.boardsService.updateBoardStatus(id, status);
-    // }
-
-    // /**
-    //  * DEL 게시판 단일 삭제
-    //  * @param id 
-    //  */
-    // @Delete('/:id')
-    // deleteBoard(@Param('id') id: string): void {
-    //     this.boardsService.deleteBoard(id);
-    // }
 
 }
