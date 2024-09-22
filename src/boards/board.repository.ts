@@ -16,7 +16,7 @@ export class BoardRepository extends Repository<Board> {
     async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
         const { title, description } = createBoardDto;
 
-        const board = await this.create({
+        const board = this.create({
             title,
             description,
             status: BoardStatus.PUBLIC
